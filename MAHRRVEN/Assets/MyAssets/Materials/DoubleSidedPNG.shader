@@ -1,53 +1,58 @@
-Shader "Custom/DoubleSidedTransparentPNG"
+Shader "Hidden/URP/DoubleSidedTransparentPNG"
 {
     Properties
     {
-        _Color ("Tint Color", Color) = (1,1,1,1)
-        _MainTex ("Texture", 2D) = "white" {}
-        _Glossiness ("Smoothness", Range(0,1)) = 0.0
-        _Metallic ("Metallic", Range(0,1)) = 0.0
+        _BaseMap ("Texture", 2D) = "white" {}
+        _BaseColor ("Color", Color) = (1,1,1,1)
     }
 
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         LOD 200
 
-        Cull Off          //Double-sided
-        ZWrite Off        //Don’t write to depth buffer (for transparency)
-        Blend SrcAlpha OneMinusSrcAlpha   //Standard alpha blending
-
-        CGPROGRAM
-        #pragma surface surf Standard fullforwardshadows alpha:fade
-        #pragma target 3.0
-
-        sampler2D _MainTex;
-
-        struct Input
+        Pass
         {
-            float2 uv_MainTex;
-        };
+            Cull Off
+            ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
 
-        half _Glossiness;
-        half _Metallic;
-        fixed4 _Color;
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-        UNITY_INSTANCING_BUFFER_START(Props)
-        UNITY_INSTANCING_BUFFER_END(Props)
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float2 uv : TEXCOORD0;
+            };
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
-            fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
+            struct Varyings
+            {
+                float4 positionHCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
+            };
 
-            // Apply color and alpha from texture
-            o.Albedo = c.rgb;
-            o.Alpha = c.a;
+            TEXTURE2D(_BaseMap);
+            SAMPLER(sampler_BaseMap);
+            float4 _BaseColor;
 
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
+            Varyings vert (Attributes IN)
+            {
+                Varyings OUT;
+                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.uv = IN.uv;
+                return OUT;
+            }
+
+            half4 frag (Varyings IN) : SV_Target
+            {
+                half4 col = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * _BaseColor;
+                return col;
+            }
+            ENDHLSL
         }
-        ENDCG
     }
-
-    FallBack "Transparent/Diffuse"
+    FallBack "Diffuse"
 }
