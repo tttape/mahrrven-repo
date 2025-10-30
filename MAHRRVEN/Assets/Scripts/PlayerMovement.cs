@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
 
         //handle drag
-        rb.drag = grounded ? groundDrag : 0f;
+        rb.linearDamping = grounded ? groundDrag : 0f;
         //if (grounded)
         //{
         //    rb.linearDamping = groundDrag;
@@ -70,11 +70,17 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
         //limit speed
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+        }
+
+        // stop completely if no input
+        if (horizontalInput == 0 && verticalInput == 0 && grounded)
+        {
+            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
         }
     }
 
