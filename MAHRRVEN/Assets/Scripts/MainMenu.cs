@@ -8,9 +8,9 @@ public class MainMenu : MonoBehaviour
 {
    public void PlayGame()
     {
-        //SceneManager.LoadScene("City");
+        SceneManager.LoadScene("City");
 
-        Debug.Log("Scene not setup in build yet");
+        //Debug.Log("Scene not setup in build yet");
 
         //builds next scene when pressing play
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
