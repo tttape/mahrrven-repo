@@ -17,6 +17,21 @@ public class PauseMenu : MonoBehaviour
     public GameObject optionsMenuUI;
     public Slider volumeSlider;
 
+    private static bool created = false;
+
+    void Awake()
+    {
+        if (!created)
+        {
+            DontDestroyOnLoad(gameObject);
+            created = true;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         Time.timeScale = 1f;

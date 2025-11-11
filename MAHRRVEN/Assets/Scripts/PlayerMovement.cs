@@ -24,6 +24,21 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
 
+    private static bool created = false;
+
+    void Awake()
+    {
+        if (!created)
+        {
+            DontDestroyOnLoad(gameObject);
+            created = true;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
