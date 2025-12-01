@@ -35,11 +35,16 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenu.GameIsPaused) return;
+
         invertXVal = (invertX) ? -1 : 1;
         invertYVal = (invertY) ? -1 : 1;
 
         rotationX += Input.GetAxis("Mouse Y") * invertYVal * rotationSpeed;
         rotationX = Mathf.Clamp(rotationX, minVerticalAngle, maxVerticalAngle);
+
+        //rotationX += Input.GetAxis("Mouse Y") * invertYVal * rotationSpeed * Time.deltaTime;
+        //rotationY += Input.GetAxis("Mouse X") * invertXVal * rotationSpeed * Time.deltaTime;
 
         rotationY += Input.GetAxis("Mouse X") * invertXVal * rotationSpeed;
 
@@ -51,4 +56,6 @@ public class CameraController : MonoBehaviour
         transform.position = focusPosition - targetRotation * new Vector3(0, 0, distance);
         transform.rotation = targetRotation;
     }
+
+    public Quaternion PlanarRotation => Quaternion.Euler(0, rotationY, 0);
 }
