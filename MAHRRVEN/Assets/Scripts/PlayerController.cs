@@ -9,25 +9,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector3 groundCheckOffset;
     [SerializeField] LayerMask groundLayer;
 
-    bool isGrounded;
-    float ySpeed;
+    public GameObject tunnelBUI;
 
-    Quaternion targetRotation;
+    public CharacterController characterController;
 
-    CameraController cameraController;
-    CharacterController characterController;
+    private bool isGrounded;
+    private float ySpeed;
+    private Quaternion targetRotation;
+
+    private CameraController cameraController;
+    //public CharacterController characterController;
+    
 
     private void Awake()
     {
         cameraController = Camera.main.GetComponent<CameraController>();
 
-        characterController = GetComponent<CharacterController>();
+        if (characterController == null)
+        {
+            characterController = GetComponent<CharacterController>();
+        }
+            
     }
 
     // Update is called once per frame
     void Update()
     {
         if (PauseMenu.GameIsPaused) return;
+
+        HandleCursor();
+
+        
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -68,6 +80,20 @@ public class PlayerController : MonoBehaviour
             rotationSpeed * Time.deltaTime);
     }
 
+    private void HandleCursor()
+    {
+        if (tunnelBUI.activeSelf || PauseMenu.GameIsPaused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
     void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
@@ -79,5 +105,56 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
     }
 
-  
+    public CharacterController CharacterControllerRef => characterController;
+
+    public void Teleport(Transform spawnPoint)
+    {
+        if (characterController != null)
+        {
+            characterController.enabled = false;
+            transform.position = spawnPoint.position;
+            transform.rotation = spawnPoint.rotation;
+            characterController.enabled = true;
+        }
+        else
+        {
+            transform.position = spawnPoint.position;
+            transform.rotation = spawnPoint.rotation;
+        }
+    }
+
+    //public void TeleportToTunnelB(Transform tunnelBSpawn)
+    //{
+    //    if (characterController != null)
+    //    {
+    //        characterController.enabled = false;
+    //        transform.position = tunnelBSpawn.position;
+    //        transform.rotation = tunnelBSpawn.rotation; // optional
+    //        characterController.enabled = true;
+    //    }
+    //    else
+    //    {
+    //        transform.position = tunnelBSpawn.position;
+    //        transform.rotation = tunnelBSpawn.rotation;
+    //    }
+    //}
+
+    //public void ReturnToTunnelC(Transform tunnelCSpawn)
+    //{
+    //    if (characterController != null)
+    //    {
+    //        characterController.enabled = false;
+    //        transform.position = tunnelCSpawn.position;
+    //        transform.rotation = tunnelCSpawn.rotation;
+    //        characterController.enabled = true;
+    //    }
+    //    else
+    //    {
+    //        transform.position = tunnelCSpawn.position;
+    //        transform.rotation = tunnelCSpawn.rotation;
+    //    }
+
+    //    tunnelBUI.SetActive(false);
+    //}
+
 }
