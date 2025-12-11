@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform followTarget;
-
+    [SerializeField] float horizontalOffset = 2f;
 
     [SerializeField] float rotationSpeed = 2f;
     [SerializeField] float distance = 5;
@@ -51,10 +51,17 @@ public class CameraController : MonoBehaviour
         var targetRotation = Quaternion.Euler(rotationX, rotationY, 0);
 
 
-        var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y);
+        var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y, 0);
 
-        transform.position = focusPosition - targetRotation * new Vector3(0, 0, distance);
+        // Calculate camera position with distance and horizontal offset
+        Vector3 offset = new Vector3(horizontalOffset, 0, distance); // x = side, z = back
+        transform.position = focusPosition - targetRotation * offset;
         transform.rotation = targetRotation;
+
+        //var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y);
+
+        //transform.position = focusPosition - targetRotation * new Vector3(0, 0, distance);
+        //transform.rotation = targetRotation;
     }
 
     public Quaternion PlanarRotation => Quaternion.Euler(0, rotationY, 0);

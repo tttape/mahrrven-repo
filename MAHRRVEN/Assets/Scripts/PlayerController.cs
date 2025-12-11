@@ -123,38 +123,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //public void TeleportToTunnelB(Transform tunnelBSpawn)
-    //{
-    //    if (characterController != null)
-    //    {
-    //        characterController.enabled = false;
-    //        transform.position = tunnelBSpawn.position;
-    //        transform.rotation = tunnelBSpawn.rotation; // optional
-    //        characterController.enabled = true;
-    //    }
-    //    else
-    //    {
-    //        transform.position = tunnelBSpawn.position;
-    //        transform.rotation = tunnelBSpawn.rotation;
-    //    }
-    //}
-
-    //public void ReturnToTunnelC(Transform tunnelCSpawn)
-    //{
-    //    if (characterController != null)
-    //    {
-    //        characterController.enabled = false;
-    //        transform.position = tunnelCSpawn.position;
-    //        transform.rotation = tunnelCSpawn.rotation;
-    //        characterController.enabled = true;
-    //    }
-    //    else
-    //    {
-    //        transform.position = tunnelCSpawn.position;
-    //        transform.rotation = tunnelCSpawn.rotation;
-    //    }
-
-    //    tunnelBUI.SetActive(false);
-    //}
+    
 
 }
