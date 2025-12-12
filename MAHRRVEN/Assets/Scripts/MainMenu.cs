@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     
     public void PlayGame()
     {
-        SceneManager.LoadScene("City");
+        SceneManager.LoadScene("Home");
 
         //Debug.Log("Scene not setup in build yet");
 
