@@ -9,14 +9,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector3 groundCheckOffset;
     [SerializeField] LayerMask groundLayer;
 
+    [Header("Jump Settings")]
+    [SerializeField] float jumpForce = 8f;
+    [SerializeField] float gravity = -20f;
+
     public GameObject tunnelBUI;
 
     public CharacterController characterController;
 
     private bool isGrounded;
     private float ySpeed;
+
+    //jump
+    private bool isJumping;
+
     private Quaternion targetRotation;
 
+    private Animator animator;
     private CameraController cameraController;
     //public CharacterController characterController;
     
@@ -24,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         cameraController = Camera.main.GetComponent<CameraController>();
+        animator = GetComponentInChildren<Animator>();
 
         if (characterController == null)
         {
@@ -58,12 +68,58 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("isGrounded = " + isGrounded);
         if (isGrounded)
         {
-            ySpeed = -0.5f;
+            //ySpeed = -0.5f;
+
+            ySpeed = -2f;
+
+            // Reset jump on landing
+            if (isJumping)
+            {
+                isJumping = false;
+                animator?.SetBool("IsJumping", false);
+            }
+
+            // Jump input
+            if (Input.GetButtonDown("Jump"))
+            {
+                ySpeed = jumpForce;
+                isJumping = true;
+                animator?.SetBool("IsJumping", true);
+            }
         }
         else
         {
-            ySpeed += Physics.gravity.y * Time.deltaTime;
+            //ySpeed += Physics.gravity.y * Time.deltaTime;
+
+            ySpeed += gravity * Time.deltaTime;
         }
+
+
+        //debug
+        //if (isGrounded)
+        //{
+        //    ySpeed = -2f;
+        //    Debug.Log("Player is grounded");
+
+        //    if (isJumping)
+        //    {
+        //        isJumping = false;
+        //        animator?.SetBool("IsJumping", false);
+        //    }
+
+        //    if (Input.GetButtonDown("Jump"))
+        //    {
+        //        Debug.Log("Jump pressed!");
+        //        ySpeed = jumpForce;
+        //        isJumping = true;
+        //        animator?.SetBool("IsJumping", true);
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.Log("Player is NOT grounded");
+        //    ySpeed += gravity * Time.deltaTime;
+        //}
 
         var velocity = moveDir * moveSpeed;
         velocity.y = ySpeed;
@@ -81,6 +137,8 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
             rotationSpeed * Time.deltaTime);
+
+        animator?.SetFloat("Speed", moveAmount, 0.1f, Time.deltaTime);
     }
 
     private void HandleCursor()
