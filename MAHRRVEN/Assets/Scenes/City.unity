@@ -9678,23 +9678,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7183348}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: -372.893}
---- !u!114 &83181623 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6243611816269863269, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
+--- !u!1 &83181619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7997333170360697812, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
   m_PrefabInstance: {fileID: 1299713516901503798}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &83181623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83181619}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d7fc965cdbbf0a47aaf2f56656ffce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tunnelBSpawn: {fileID: 531828014}
+  tunnelCSpawn: {fileID: 1419297701}
+  playerController: {fileID: 83181625}
+  fader: {fileID: 410593849}
+--- !u!143 &83181624 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 3884452820211935119, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
+  m_PrefabInstance: {fileID: 1299713516901503798}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &83181625 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8358746563536815105, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
   m_PrefabInstance: {fileID: 1299713516901503798}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 83181619}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9da2164038b27345a624fcaae692644, type: 3}
@@ -26318,6 +26333,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7183348}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: -492.663}
+--- !u!4 &192379649 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5912115436587649851, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
+  m_PrefabInstance: {fileID: 1299713516901503798}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &192605639
 GameObject:
   m_ObjectHideFlags: 0
@@ -282275,18 +282295,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6243611816269863269, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
-      propertyPath: fader
-      value: 
-      objectReference: {fileID: 410593849}
-    - target: {fileID: 6243611816269863269, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
-      propertyPath: tunnelBSpawn
-      value: 
-      objectReference: {fileID: 531828014}
-    - target: {fileID: 6243611816269863269, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
-      propertyPath: tunnelCSpawn
-      value: 
-      objectReference: {fileID: 1419297701}
     - target: {fileID: 7997333170360697812, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
       propertyPath: m_Name
       value: Player
@@ -282295,10 +282303,17 @@ PrefabInstance:
       propertyPath: tunnelBUI
       value: 
       objectReference: {fileID: 203694381}
+    - target: {fileID: 8358746563536815105, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
+      propertyPath: characterController
+      value: 
+      objectReference: {fileID: 83181624}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7997333170360697812, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 83181623}
   m_SourcePrefab: {fileID: 100100000, guid: 2aad01ee9c161d747ac91480fba19532, type: 3}
 --- !u!1001 &2009254151634053650
 PrefabInstance:
@@ -282472,7 +282487,7 @@ PrefabInstance:
     - target: {fileID: 9124134146048170073, guid: 643333a297a6b8b4cabe5922bb927d99, type: 3}
       propertyPath: followTarget
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 192379649}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
