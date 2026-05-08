@@ -12,10 +12,7 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Home");
 
-        //Debug.Log("Scene not setup in build yet");
-
-        //builds next scene when pressing play
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+       
     }
 
     public void Options()
